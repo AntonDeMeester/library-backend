@@ -4,3 +4,5 @@ staticfiles
 .env
 *.sqlite3
 env/*
+.aws/credentials
+Dockerfile

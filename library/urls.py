@@ -17,7 +17,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from libbackend.views import empty_get
+
 urlpatterns = [
     path('books/', include('libbackend.urls')),
     path('admin/', admin.site.urls),
+    path('', empty_get)
 ]

@@ -19,5 +19,5 @@ from django.urls import path, include
 from .api import register
 
 urlpatterns = [
-    path('register', register)
+    path('register', register),
 ]
