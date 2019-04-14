@@ -15,9 +15,18 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.urls import path, include
-from .api import register
+from django.urls import path
+from rest_framework import routers
+
+from .views import BooksViewSet, RegisterView, GenreViewSet
+
+ROUTER = routers.DefaultRouter()
+ROUTER.register('books', BooksViewSet)
+ROUTER.register('genres', GenreViewSet)
+
 
 urlpatterns = [
-    path('register', register),
+    path('register/', RegisterView.as_view()),
 ]
+
+urlpatterns += ROUTER.urls

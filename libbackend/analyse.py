@@ -22,6 +22,4 @@ def get_google_volume_from_isbn(isbn):
     print("Contacting Google books API at URL: " + url)
     response = requests.get(url)
     print("Got response of Google Books API. Status code: " + str(response.status_code))
-    if response.status_code == requests.codes.ok:
-        return response.text
-    return ""
+    return response.text

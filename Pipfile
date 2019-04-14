@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [requires]
-python_version = "3.6"
+python_version = "3.7"
 
 [packages]
 "psycopg2-binary" = "*"
@@ -20,6 +20,9 @@ pyzbar = "*"
 requests = "*"
 boto3 = "*"
 awscli = "*"
+django-cors-headers = "*"
+django-rest-swagger = "==2.1.2"
+awsebcli = "*"
 
 [dev-packages]
 awscli = "*"

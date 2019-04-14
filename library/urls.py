@@ -15,12 +15,16 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
+from django.views.decorators.csrf import ensure_csrf_cookie
+from rest_framework.authtoken import views
+from rest_framework_swagger.views import get_swagger_view
 
-from libbackend.views import empty_get
+swagger_view = get_swagger_view(title='Library API')
 
 urlpatterns = [
-    path('books/', include('libbackend.urls')),
+    path('docs/swagger/', swagger_view),
+    path('', include('libbackend.urls')),
     path('admin/', admin.site.urls),
-    path('', empty_get)
+    path('token/',  views.obtain_auth_token),
 ]
