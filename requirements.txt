@@ -39,7 +39,8 @@ placebo==0.9.0
 psycopg2-binary==2.8.1
 psycopg2==2.8.1
 pyasn1==0.4.5
-python-dateutil==2.6.1 ;
+pypiwin32==223 ; sys_platform == 'win32' and python_version >= '3.6'
+python-dateutil==2.6.1 ; python_version >= '2.7'
 python-slugify==1.2.4
 pytz==2019.1
 pywin32==224
@@ -58,7 +59,7 @@ tqdm==4.19.1
 troposphere==2.4.6
 unidecode==1.0.23
 uritemplate==3.0.0
-urllib3==1.24.1 ;
+urllib3==1.24.1 ; python_version >= '3.4'
 wcwidth==0.1.7
 werkzeug==0.15.2
 wheel==0.33.1
