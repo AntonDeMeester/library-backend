@@ -1,4 +1,6 @@
 import requests
+from rest_framework.exceptions import ValidationError
+
 from pyzbar.pyzbar import decode #More info here: https://pypi.org/project/pyzbar/
 from PIL import Image #Pillow for image reading
 
@@ -14,8 +16,7 @@ def get_isbn_from_barcode(input_image):
             isbn = data[0].data.decode('utf-8')
             print("Decoded image. ISBN is " + isbn)
             return isbn
-    print("Couldn't decode image.")
-    return -1
+    raise ValidationError("Couldn't decode image.")
 
 def get_google_volume_from_isbn(isbn):
     url = google_books_url + "/" + "volumes?q=" + "isbn:" + isbn
