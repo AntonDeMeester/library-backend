@@ -139,7 +139,11 @@ DATABASES['default'].update(dj_database_url.config(conn_max_age=500, ssl_require
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Allow all host headers
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [
+    '127.0.0.1:*',
+    'localhost:*',
+    "http://transvaal-test.75fcgiy7jj.eu-west-1.elasticbeanstalk.com/'
+]
 
 # CORS Headers allows
 # CORS_ORIGIN_ALLOW_ALL = True
@@ -148,7 +152,8 @@ CORS_ORIGIN_WHITELIST = (
     'localhost:4200',
     '127.0.0.1:4200',
     'localhost:8000',
-    '127.0.0.1:8000'
+    '127.0.0.1:8000',
+    'http://transvaal-test.75fcgiy7jj.eu-west-1.elasticbeanstalk.com/'
 )
 
 
