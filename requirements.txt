@@ -37,11 +37,9 @@ pillow==6.0.0
 placebo==0.9.0
 psycopg2-binary==2.8.2
 pyasn1==0.4.5
-pypiwin32==223 ; sys_platform == 'win32' and python_version >= '3.6'
 python-dateutil==2.6.1 ; python_version >= '2.7'
 python-slugify==1.2.4
 pytz==2019.1
-pywin32==224
 pyyaml==3.13
 pyzbar==0.1.8
 requests==2.20.1
