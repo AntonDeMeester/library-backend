@@ -8,7 +8,6 @@ python_version = "3.7"
 
 [packages]
 "psycopg2-binary" = "*"
-django-heroku = "*"
 gunicorn = "*"
 django = "*"
 zappa = "*"
@@ -23,6 +22,7 @@ awscli = "*"
 django-cors-headers = "*"
 django-rest-swagger = "==2.1.2"
 awsebcli = "*"
+dj-database-url = "*"
 
 [dev-packages]
 awscli = "*"
