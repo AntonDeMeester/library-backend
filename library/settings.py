@@ -169,4 +169,3 @@ CORS_ORIGIN_WHITELIST = (
 
 STATIC_URL = '/static/'
 STATIC_ROOT = 'static'
-

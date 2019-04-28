@@ -14,7 +14,7 @@ djangorestframework = "*"
 markdown = "*"
 django-filter = "*"
 pillow = "*"
-pyzbar = "*"
+pyzbar = {extras = ["scripts"],version = "*"}
 requests = "*"
 boto3 = "*"
 django-cors-headers = "*"
