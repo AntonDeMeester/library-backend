@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 
 import os
 import dj_database_url
+import django_heroku
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -121,27 +122,16 @@ USE_TZ = True
 
 # Change 'default' database configuration with $DATABASE_URL.
 
-
-if 'RDS_HOSTNAME' in os.environ:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': os.environ['RDS_DB_NAME'],
-            'USER': os.environ['RDS_USERNAME'],
-            'PASSWORD': os.environ['RDS_PASSWORD'],
-            'HOST': os.environ['RDS_HOSTNAME'],
-            'PORT': os.environ['RDS_PORT'],
-        }
-    }
-elif 'DATANASE_URL' in os.environ: 
-    DATABASES['default'].update(dj_database_url.config(conn_max_age=500, ssl_require=True))
-else: 
-    DATABASES = {
+DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         }
     }
+
+if 'DATABASE_URL' in os.environ: 
+    DATABASES['default'].update(dj_database_url.config(conn_max_age=500, ssl_require=True)) 
+    
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
@@ -171,3 +161,6 @@ CORS_ORIGIN_WHITELIST = (
 
 STATIC_URL = '/static/'
 STATIC_ROOT = 'static'
+
+# Activate Django-Heroku.
+django_heroku.settings(locals())
