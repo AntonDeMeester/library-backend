@@ -1,3 +1,7 @@
 {
-    "python.pythonPath": "C:\\Users\\Anton\\.virtualenvs\\backend-j8mvU_33\\Scripts\\python.exe"
+    "python.pythonPath": "/Users/antondemeester/.local/share/virtualenvs/Back-SSkdI0sK/bin/python",
+    "python.linting.pylintEnabled": true,
+    "python.linting.pylintArgs": [
+        "--load-plugins", "pylint_django"
+    ],
 }

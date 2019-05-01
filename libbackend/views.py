@@ -1,4 +1,5 @@
 import json
+import coreapi
 
 from django.shortcuts import render
 from django.utils.decorators import method_decorator
@@ -10,15 +11,32 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import GenericViewSet
 from rest_framework.views import APIView
 from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, CreateModelMixin
+from rest_framework.filters import BaseFilterBackend
 
 from .analyse import get_isbn_from_barcode, get_google_volume_from_isbn
 from .models import Book, Genre
 from .serializers import BookSerializer, GoogleVolumeSerializer, GenreAPISerializer
 
+class GenreFilter(BaseFilterBackend):
+    def get_schema_fields(self, view):
+        return [coreapi.Field(
+            name='genre',
+            location='query',
+            required=False,
+            type='string'
+        )]
+
+    def filter_queryset(self, request, queryset, view):
+        genre = request.query_params.get('genre', None)
+        if genre:
+            queryset = queryset.filter(genres__genre    =genre)
+        return queryset
+
 class BooksViewSet(RetrieveModelMixin, ListModelMixin, GenericViewSet):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     permission_classes = (IsAuthenticated, )
+    filter_backends = (GenreFilter, )
     
 class RegisterView(APIView):
     permission_classes = (IsAuthenticated, )
@@ -44,4 +62,6 @@ class GenreViewSet(ListModelMixin, RetrieveModelMixin, GenericViewSet):
     queryset = Genre.objects.all()
     serializer_class = GenreAPISerializer
     permission_classes = (IsAuthenticated, )
+
+
         

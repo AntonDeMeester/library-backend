@@ -25,14 +25,11 @@ class Book(models.Model):
     published_date = models.DateField(blank=True, null=True)
     description = models.TextField(blank=True)
 
-    page_count = models.IntegerField(null=True)
+    page_count = models.IntegerField(null=True, blank=True)
     language = models.CharField(max_length=16, blank=True)
 
     def __str__(self):
         return "Book {}, {}".format(self.title, self.isbn13)
-
-    def create(self, data):
-        return super().create(data)
 
 class BookImage(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='book_image')
