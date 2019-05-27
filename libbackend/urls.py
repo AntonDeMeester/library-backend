@@ -21,8 +21,8 @@ from rest_framework import routers
 from .views import BooksViewSet, RegisterView, GenreViewSet
 
 ROUTER = routers.DefaultRouter()
-ROUTER.register('books', BooksViewSet)
-ROUTER.register('genres', GenreViewSet)
+ROUTER.register('books', BooksViewSet, basename='books')
+ROUTER.register('genres', GenreViewSet, basename='genres')
 
 
 urlpatterns = [

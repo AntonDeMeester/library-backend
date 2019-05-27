@@ -147,13 +147,12 @@ ALLOWED_HOSTS = [
 # CORS_ORIGIN_ALLOW_ALL = True
 
 CORS_ORIGIN_WHITELIST = (
-    'localhost:4200',
-    '127.0.0.1:4200',
-    'localhost:8000',
-    '127.0.0.1:8000',
-    'http://transvaal-test.75fcgiy7jj.eu-west-1.elasticbeanstalk.com/',
-    'https://library-backend-transvaal.herokuapp.com/',
-    'd2q417ba2kh3ry.cloudfront.net',
+    'http://localhost:4200',
+    'http://127.0.0.1:4200',
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
+    'https://library-backend-transvaal.herokuapp.com',
+    'https://d2q417ba2kh3ry.cloudfront.net',
 )
 
 # Static files (CSS, JavaScript, Images)

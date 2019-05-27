@@ -14,7 +14,7 @@ from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, CreateMode
 from rest_framework.filters import BaseFilterBackend
 
 from .analyse import get_isbn_from_barcode, get_google_volume_from_isbn
-from .models import Book, Genre
+from .models import Book, Genre, Book2User
 from .serializers import BookSerializer, GoogleVolumeSerializer, GenreAPISerializer
 
 class GenreFilter(BaseFilterBackend):
@@ -29,17 +29,22 @@ class GenreFilter(BaseFilterBackend):
     def filter_queryset(self, request, queryset, view):
         genre = request.query_params.get('genre', None)
         if genre:
-            queryset = queryset.filter(genres__genre    =genre)
+            queryset = queryset.filter(genres__genre=genre)
         return queryset
 
 class BooksViewSet(RetrieveModelMixin, ListModelMixin, GenericViewSet):
-    queryset = Book.objects.all()
     serializer_class = BookSerializer
     permission_classes = (IsAuthenticated, )
     filter_backends = (GenreFilter, )
+
+    def get_queryset(self):
+        if self.request.kwargs('display', None) != 'all':
+            return Book.objects.filter(users=self.request.user)
+        return Book.objects.all()
     
 class RegisterView(APIView):
     permission_classes = (IsAuthenticated, )
+    queryset = Book.objects.all()
     
     def post(self, request, *args, **kwargs):
         photo = request.FILES.get('image', None)
@@ -56,6 +61,10 @@ class RegisterView(APIView):
         volume_serialiser = GoogleVolumeSerializer(data=google_volume['items'], many=True)
         if volume_serialiser.is_valid(raise_exception=True):
             volume_serialiser.save()
+        
+        for ser_instance in volume_serialiser.instance:
+            Book2User.objects.get_or_create(book=ser_instance["book"], user=self.request.user)
+        
         return Response(status=status.HTTP_201_CREATED, data=volume_serialiser.data)
 
 class GenreViewSet(ListModelMixin, RetrieveModelMixin, GenericViewSet):

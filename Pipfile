@@ -26,3 +26,7 @@ django-heroku = "*"
 awscli = "*"
 pylint = "*"
 pylint-django = "*"
+black = "*"
+
+[pipenv]
+allow_prereleases = true

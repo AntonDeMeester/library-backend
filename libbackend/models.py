@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Author(models.Model):
@@ -28,6 +29,8 @@ class Book(models.Model):
     page_count = models.IntegerField(null=True, blank=True)
     language = models.CharField(max_length=16, blank=True)
 
+    users = models.ManyToManyField(User, related_name="books", through='Book2User', blank=True)
+
     def __str__(self):
         return "Book {}, {}".format(self.title, self.isbn13)
 
@@ -39,6 +42,27 @@ class BookImage(models.Model):
     medium = models.URLField(blank=True)
     large = models.URLField(blank=True)
     extra_large = models.URLField(blank=True)
+
+    class Meta:
+        verbose_name = 'Book image'
+        verbose_name_plural = 'Book images'
+
+class Book2User(models.Model):
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    OWNER = 'own'
+    OBSERVER = 'obs'
+    BORROWER = 'bor'
+    USER_LINK_TYPE_CHOICES = (
+        (OWNER, 'Owner'),
+        (OBSERVER, 'Observer'),
+        (BORROWER, 'Borrower')
+    )
+    user_link_type = models.CharField(max_length=3, choices=USER_LINK_TYPE_CHOICES, default=OWNER)
+
+    class Meta:
+        verbose_name = 'Book to user'
+        verbose_name_plural = 'Books to users'
 
 """
 class Books2Authors(models.Model):
