@@ -38,7 +38,7 @@ class BooksViewSet(RetrieveModelMixin, ListModelMixin, GenericViewSet):
     filter_backends = (GenreFilter, )
 
     def get_queryset(self):
-        if self.request.kwargs('display', None) != 'all':
+        if self.kwargs.get('display', None) != 'all':
             return Book.objects.filter(users=self.request.user)
         return Book.objects.all()
     

@@ -69,7 +69,7 @@ class GoogleVolumeImageLinksSerializer(serializers.Serializer):
 class GoogleVolumeInfoSerializer(serializers.Serializer):
     title = serializers.CharField()
     subtitle = serializers.CharField(required=False)
-    authors = serializers.ListField(child=serializers.CharField())
+    authors = serializers.ListField(child=serializers.CharField(), required=False)
     publisher = serializers.CharField(required=False)
     publishedDate = serializers.CharField(required=False)
     description = serializers.CharField(required=False)
@@ -104,8 +104,8 @@ class GoogleVolumeInfoSerializer(serializers.Serializer):
         authors_serializer.is_valid(raise_exception=True)
 
         genres_data = validated_data.pop('categories',[])
-        if validated_data.get("mainCategory", False) and validated_data.get("mainCategory", None) not in genres:
-            genres.append(validated_data.pop("mainCategory"))
+        if validated_data.get("mainCategory", False) and validated_data.get("mainCategory", None) not in genres_data:
+            genres_data.append(validated_data.pop("mainCategory"))
         genres = [ {'genre': x } for x in genres_data ]
         genres_serializer = GenreSerializer(data=genres, many=True)
         genres_serializer.is_valid(raise_exception=True)
@@ -115,9 +115,12 @@ class GoogleVolumeInfoSerializer(serializers.Serializer):
         snake_case_data['title'] = validated_data.get('title')
         snake_case_data['subtitle'] = validated_data.get('subtitle', '')
         snake_case_data['publisher'] = validated_data.get('publisher', '')
-        snake_case_data['published_date'] = parser.parse(validated_data.get('publishedDate', None)).date()
+        snake_case_data['published_date'] = validated_data.get('publishedDate', None)
+        if snake_case_data['published_date'] is not None:
+            snake_case_data['published_date'] = parser.parse(snake_case_data['published_date']).date()
         snake_case_data['description'] = validated_data.get('description', '')
-        snake_case_data['page_count'] = int(validated_data.get('pageCount'))
+        if validated_data.get('pageCount'):
+            snake_case_data['page_count'] = int(validated_data.get('pageCount'))
         snake_case_data['language'] = validated_data.get('language', '')
 
         book_image_camel = validated_data.pop('imageLinks', None)
