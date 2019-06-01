@@ -39,11 +39,18 @@ class NestedBookImageSerializer(serializers.ModelSerializer):
 class BookSerializer(serializers.ModelSerializer):
     genres = GenreSerializer(many=True, required=False)
     authors = AuthorSerializer(many=True, required=False)
-    book_image = NestedBookImageSerializer()
+    book_image = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Book
         exclude = ('users', )
+
+    def get_book_image(self, instance):
+        book_image = instance.book_image.order_by('-id')
+        if book_image.exists():
+            book_image = NestedBookImageSerializer(instance=book_image.first())
+            return book_image.data
+        return {}
 
 #endregion database models
 
