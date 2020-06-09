@@ -118,8 +118,7 @@ class GoogleVolumeInfoSerializer(serializers.Serializer):
         genres_serializer.is_valid(raise_exception=True)
 
         #Transform from camelCase to snake_case + renaming and refactor if necessary
-        snake_case_data = {}
-        snake_case_data['title'] = validated_data.get('title')
+        snake_case_data = {'title': validated_data.get('title')}
         snake_case_data['subtitle'] = validated_data.get('subtitle', '')
         snake_case_data['publisher'] = validated_data.get('publisher', '')
         snake_case_data['published_date'] = validated_data.get('publishedDate', None)
@@ -132,14 +131,16 @@ class GoogleVolumeInfoSerializer(serializers.Serializer):
 
         book_image_camel = validated_data.pop('imageLinks', None)
         if book_image_camel:
-            book_image_snake = {}
-            book_image_snake['small_thumbnail'] = book_image_camel.get('smallThumbnail', '')
+            book_image_snake = {
+                'small_thumbnail': book_image_camel.get('smallThumbnail', '')
+            }
+
             book_image_snake['thumbnail'] = book_image_camel.get('thumbnail', '')
             book_image_snake['small'] = book_image_camel.get('small', '')
             book_image_snake['medium'] = book_image_camel.get('medium', '')
             book_image_snake['large'] = book_image_camel.get('large', '')
             book_image_snake['extra_large'] = book_image_camel.get('extraLarge', '')
-                           
+
         #Only create everything at the end
         with transaction.atomic():
             authors_obj = authors_serializer.save()
@@ -169,7 +170,7 @@ class GoogleVolumeInfoSerializer(serializers.Serializer):
                 book_image = BookImageSerializer(data=book_image_snake)
                 book_image.is_valid(raise_exception=True)
                 book_image.save()
-        
+
         return book
 
 class GoogleVolumeUserInfoSerializer(serializers.Serializer):
@@ -196,10 +197,7 @@ class GoogleVolumeSerializer(serializers.Serializer):
         volume_info_serialiazer.is_valid(raise_exception=True)
         book = volume_info_serialiazer.save()
 
-        instance = {} 
-        instance['book'] = book
-
-        return instance
+        return {'book': book}
 #endregion Google Volume parsing
 
 #region apimodels
