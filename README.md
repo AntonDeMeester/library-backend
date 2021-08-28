@@ -1,6 +1,8 @@
-# Heroku Django Starter Template
+# Library Back
 
-An utterly fantastic project starter template for Django 2.0.
+This provides the backend for [the Library Project](library.illuminatus.be).
+
+You can upload the barcode of a book, and it will add it to the database.
 
 ## Features
 
@@ -16,15 +18,6 @@ To use this project, follow these steps:
 2. Install Django (`$ pipenv install django`)
 3. Create a new project using this template
 
-## Creating Your Project
-
-Using this template to create a new Django app is easy::
-
-    $ django-admin.py startproject --template=https://github.com/heroku/heroku-django-template/archive/master.zip --name=Procfile helloworld
-
-(If this doesn't work on windows, replace `django-admin.py` with `django-admin`)
-
-You can replace ``helloworld`` with your desired project name.
 
 ## Deployment to Heroku
 
@@ -39,8 +32,13 @@ You can replace ``helloworld`` with your desired project name.
 
 See also, a [ready-made application](https://github.com/heroku/python-getting-started), ready to deploy.
 
+# Running
 
-## License: MIT
+1. Enter your virtual environment (`pipenv shell`)
+2. Execute migrations (`python manage.py migrate`)
+3. Start Django (`python manage.py runserver`)
+
+You can go to the admin page (`/admin`), or go to the specific endpoints (`books` and `genres`)
 
 ## Further Reading
 
